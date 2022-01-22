@@ -29,6 +29,7 @@ class UsersController {
 
   public createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+    console.log("wants to register");
       const userData: CreateUserDto = req.body;
       const createUserData: User = await this.userService.createUser(userData);
 

@@ -34,7 +34,7 @@ class App {
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log("asdasd");
+      console.log("asdasd1");
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -47,7 +47,7 @@ class App {
   }
 
   private connectToDatabase() {
-    console.log("asdasd");
+    console.log("asdasd2");
     if (this.env !== 'production') {
       set('debug', true);
     }
@@ -64,6 +64,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     //this.app.use(cookieParser());
+    console.log("middleware end")
   }
 
   private initializeRoutes(routes: Routes[]) {
