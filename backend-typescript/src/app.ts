@@ -28,12 +28,13 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    this.initializeSwagger();
+    //this.initializeSwagger();
     this.initializeErrorHandling();
   }
 
   public listen() {
     this.app.listen(this.port, () => {
+      console.log("asdasd");
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -46,6 +47,7 @@ class App {
   }
 
   private connectToDatabase() {
+    console.log("asdasd");
     if (this.env !== 'production') {
       set('debug', true);
     }
