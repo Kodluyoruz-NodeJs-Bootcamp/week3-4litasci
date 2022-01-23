@@ -49,7 +49,7 @@ export default class Login extends Component {
       })
       .catch((err) => {
         console.log(err);
-        this.changeResult(err.response.data);
+        this.changeResult(err.response.data.message);
       });
   }
 

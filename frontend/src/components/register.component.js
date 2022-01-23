@@ -53,8 +53,7 @@ export default class Register extends Component {
         window.location = "/login";
       })
       .catch((err) => {
-        console.log(err);
-        this.changeResult(err.response.data);
+        this.changeResult(err.response.data.message);
       });
   }
 
