@@ -1,22 +1,23 @@
 import config from 'config';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { HttpException } from '@exceptions/HttpException';
-import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
+import { DataStoredInToken, RequestWithAuth, RequestWithUser } from '@interfaces/auth.interface';
 import userModel from '@models/users.model';
 
-const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
-
-    if (Authorization) {
+    const token = req.body.token;
+    const userAgentReq: string = req.headers["user-agent"];
+    console.log(token)
+    console.log(userAgentReq)
+    if (token) {
       const secretKey: string = config.get('secretKey');
-      const verificationResponse = (await verify(Authorization, secretKey)) as DataStoredInToken;
-      const userId = verificationResponse._id;
-      const findUser = await userModel.findById(userId);
+      const verificationResponse = (await verify(token, secretKey)) as DataStoredInToken;
+      const verificatedUserAgent = verificationResponse.userAgent;
 
-      if (findUser) {
-        req.user = findUser;
+      if (verificatedUserAgent === userAgentReq) {
+        //req.user = findUser;
         next();
       } else {
         next(new HttpException(401, 'Wrong authentication token'));

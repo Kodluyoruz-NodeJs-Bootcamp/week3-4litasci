@@ -14,3 +14,7 @@ export interface TokenData {
 export interface RequestWithUser extends Request {
   user: User;
 }
+
+export interface RequestWithAuth extends Request {
+  tokens: string;
+}
