@@ -6,9 +6,6 @@ Ali Tasci
 ```console
 git pull https://github.com/Kodluyoruz-NodeJs-Bootcamp/week3-4litasci.git
 ```
-```console
-git pull https://github.com/Kodluyoruz-NodeJs-Bootcamp/week3-4litasci.git
-```
 
 Backend TypeScript
 ```console
