@@ -17,7 +17,6 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
       const verificatedUserAgent = verificationResponse.userAgent;
 
       if (verificatedUserAgent === userAgentReq) {
-        //req.user = findUser;
         next();
       } else {
         next(new HttpException(401, 'Wrong authentication token'));

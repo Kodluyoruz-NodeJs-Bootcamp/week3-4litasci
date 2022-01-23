@@ -39,7 +39,7 @@ function getDateString(reqdate) {
   return (calculation.length > 0 ? calculation : "less than a minute") + " ago";
 }
 
-const baseURL = "http://localhost:3002";
+const baseURL = "http://localhost:3002/users";
 
 export default class List extends Component {
   constructor(props) {
@@ -54,6 +54,7 @@ export default class List extends Component {
 
   TryToGetUsers() {
     const token = localStorage.getItem("verySecureJWT");
+    const auth = localStorage.getItem("Authorization");
     if (!token) {
       window.location = "/login";
       return;
@@ -63,17 +64,19 @@ export default class List extends Component {
         `${baseURL}/list`,
         {
           token: token,
+          Authorization: auth
         },
         {
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
+          withCredentials : true
         }
       )
       .then((json) => {
-        console.log(json.data);
-        if(json.data.length>0){
-          this.setState({ users: json.data })
+        console.log(json.data.data);
+        if(json.data.data.length>0){
+          this.setState({ users: json.data.data })
       }else{
           this.setState({ users: [] })
       }

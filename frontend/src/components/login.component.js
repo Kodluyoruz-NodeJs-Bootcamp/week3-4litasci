@@ -39,10 +39,12 @@ export default class Login extends Component {
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
+        withCredentials : true
       })
       .then((json) => {
-        console.log(json.data.token);
-        localStorage.setItem('verySecureJWT', json.data.token);
+        console.log(json);
+        localStorage.setItem('verySecureJWT', json.data.data.token);
+        localStorage.setItem('Authorization', json.data.data.token);
         window.location = "/list";
       })
       .catch((err) => {
