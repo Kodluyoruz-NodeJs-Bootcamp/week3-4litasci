@@ -34,7 +34,6 @@ class App {
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log("asdasd1");
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -47,7 +46,6 @@ class App {
   }
 
   private connectToDatabase() {
-    console.log("asdasd2");
     if (this.env !== 'production') {
       set('debug', true);
     }
@@ -58,13 +56,9 @@ class App {
   private initializeMiddlewares() {
     this.app.use(morgan(config.get('log.format'), { stream }));
     this.app.use(cors({ origin: config.get('cors.origin'), credentials: config.get('cors.credentials') }));
-    //this.app.use(hpp());
-    //this.app.use(helmet());
-    //this.app.use(compression());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     //this.app.use(cookieParser());
-    console.log("middleware end")
   }
 
   private initializeRoutes(routes: Routes[]) {

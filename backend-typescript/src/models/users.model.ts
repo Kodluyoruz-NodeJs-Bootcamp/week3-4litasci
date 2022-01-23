@@ -11,7 +11,12 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-});
+  fullname: {
+    type: String,
+    required: true,
+  },
+},
+{ timestamps: true });
 
 const userModel = model<User & Document>('User', userSchema);
 
