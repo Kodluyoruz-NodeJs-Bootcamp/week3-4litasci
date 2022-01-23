@@ -1,7 +1,7 @@
 import { hash, compare } from 'bcrypt';
 import config from 'config';
 import { sign } from 'jsonwebtoken';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, LoginUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
@@ -23,7 +23,7 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: LoginUserDto,userAgent:string): Promise<{ cookie: string; findUser: User; token: string }> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: User = await this.users.findOne({ email: userData.email });
@@ -32,10 +32,10 @@ class AuthService {
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
 
-    const tokenData = this.createToken(findUser);
+    const tokenData = this.createToken(findUser,userAgent);
     const cookie = this.createCookie(tokenData);
-
-    return { cookie, findUser };
+    const token = tokenData.token;
+    return { cookie, findUser , token};
   }
 
   public async logout(userData: User): Promise<User> {
@@ -47,8 +47,8 @@ class AuthService {
     return findUser;
   }
 
-  public createToken(user: User): TokenData {
-    const dataStoredInToken: DataStoredInToken = { _id: user._id };
+  public createToken(user: User, userAgent: string): TokenData {
+    const dataStoredInToken: DataStoredInToken = { _id: user._id, userAgent:userAgent};
     const secretKey: string = config.get('secretKey');
     const expiresIn: number = 60 * 60;
 

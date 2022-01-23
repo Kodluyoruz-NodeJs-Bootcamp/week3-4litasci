@@ -5,7 +5,7 @@
         "database": "test",
         "port": 27017
     },
-    "secretKey": "secretKey",
+    "secretKey": "UltraGuvenliToken",
     "log": {
         "format": "combined",
         "dir": "../logs"
